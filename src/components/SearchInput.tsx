@@ -14,9 +14,7 @@ export default function SearchInput({ debouncedQuery, loading, resetErrorState, 
     };
 
     return (
-        <form className="w-2/5 flex">
-            <label className="search-label">
-            </label>
+        <form className="w-2/5 flex" onSubmit={(e) => e.preventDefault()}>
             <input 
                 onChange={(e) => handleInputChange(e.target.value)}
                 id="search" 
