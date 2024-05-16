@@ -2,6 +2,7 @@ import SearchInput from "@/components/SearchInput";
 import MovieCardContainer from "@/components/MovieCardContainer";
 import Spinner from "@/components/Spinner";
 import Error from "@/components/Error";
+import PaginationButtons from "@/components/PaginationButtons.";
 import { Inter } from "next/font/google";
 import { useCallback, useState } from "react";
 import { getMovies } from "@/services/omdbApi";
@@ -42,7 +43,6 @@ export default function Home() {
 
   const handlePageChange = async(pageNumber: number) => {
     if (pageNumber !== 0 && pageNumber !== Number(totalResults)) {
-      console.log(pageNumber)
       setNextPage(pageNumber)
       try {
         setLoading(true)
@@ -62,7 +62,8 @@ export default function Home() {
     <main
       className={`flex min-h-screen flex-col items-center p-24 ${inter.className}`}
     >
-      <h1 className="text-5xl font-bold mb-12">OMDB Project</h1>
+      <h1 className="text-5xl font-bold">OMDB Project</h1>
+      <p className="mb-12">Enter a movie title below make sure the spelling is correct! :)</p>
       <SearchInput 
         debouncedQuery={debouncedQuery} 
         loading={setLoading}
@@ -75,22 +76,13 @@ export default function Home() {
           {isLoading ? <Spinner /> : <MovieCardContainer movieData={movieList} />}
         </div>
       }
-      {
-        Number(totalResults) > 10 && !hasError && !isLoading &&
-        <div className="mt-10">
-            <button 
-              className="bg-[#000814] px-2 text-white text-xl mr-4"
-              onClick={() => handlePageChange(nextPage - 1)}
-            >
-                Back
-              </button>
-            <button
-              className="bg-[#000814] px-2 text-white text-xl"
-              onClick={() => handlePageChange(nextPage + 1)}
-            >
-              Next
-            </button>
-        </div>
+      {Number(totalResults) > 10 &&
+        !hasError &&
+        !isLoading &&
+        <PaginationButtons 
+          handlePageChange={handlePageChange}
+          pageNumber={nextPage}
+        />
       }
     </main>
   );
