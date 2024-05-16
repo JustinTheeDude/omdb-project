@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   const [movieList, setMovieList] = useState<MovieCard[]>([]);
-  const [hasError, setError] = useState(); 
+  const [hasError, setError] = useState<unknown>(); 
   const [isLoading, setLoading] = useState(false);
   const [nextPage, setNextPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -34,7 +34,7 @@ export default function Home() {
         setMovieList([])
         setTotalResults("");
       }
-    } catch (e) {
+    } catch (e: unknown) {
       setError(e);
     } finally {
       setLoading(false)
